@@ -332,9 +332,9 @@ if(pk<0){m=new T.Mesh(GEO,plateMat(grad(s)))}
 else{m=new T.Mesh(GEO,[new T.MeshPhysicalMaterial({color:0xa8a8a8,roughness:.34,metalness:0,clearcoat:.4,clearcoatRoughness:.3,emissive:0xffffff,emissiveIntensity:.22}),plateMat(lc(COL[CI[pk]][1]))])}
 m.castShadow=true;ribG.add(m);PL.push({m:m,k:pk,p:new V(),q:new T.Quaternion(),sc:1})}
 var qa=new T.Quaternion(),qb=new T.Quaternion(),qc=new T.Quaternion(),AX=new V(1,0,0),AY=new V(0,1,0),AZ=new V(0,0,1);
-function ribPose(i,tt,p,q){var s=i/(NR-1),pk=Math.exp(-Math.pow((s-.52)/.045,2));
-p.set((s-.5)*RW,(.9*Math.sin(s*7.4+tt*.8)+.25*Math.sin(s*15.1-tt*1.2)+1.6*pk)*PS,.9*Math.sin(s*5.6+tt*.6)*PS);
-var yaw=PI/2-.55+1.25*Math.sin(s*6.4+tt*.7)+1.0*pk*Math.sin(tt*.4+1.2),lean=-.35*pk+.22*Math.sin(s*9+tt);
+function ribPose(i,tt,p,q){var s=i/(NR-1),pk=Math.exp(-Math.pow((s-.52)/.09,2));
+p.set((s-.5)*RW,(.8*Math.sin(s*6.2+tt*.8)+.18*Math.sin(s*11.3-tt*1.1)+1.2*pk)*PS,.8*Math.sin(s*4.6+tt*.6)*PS);
+var yaw=PI/2-.5+.85*Math.sin(s*4.2+tt*.7),lean=-.2*pk+.14*Math.sin(s*6.5+tt);
 qa.setFromAxisAngle(AY,yaw);qb.setFromAxisAngle(AX,lean);qc.setFromAxisAngle(AZ,PI/2);q.copy(qa).multiply(qb).multiply(qc)}
 /* ---- foil sheet + markers ---- */
 var FS=7.4,FN=M?56:84,fg=new T.PlaneGeometry(FS,FS,FN,FN),fp=fg.attributes.position,fbase=[];
@@ -401,16 +401,16 @@ allDraw();try{Promise.all([document.fonts.load('800 60px "Inter Tight"'),documen
 function cardLocal(k,out){var c=CI[k];out.set(CX[c],TOP+.5,ROWZ+CROW[k]*ROWS+STAG[c]);return out}
 /* ---- size + state ---- */
 var W0=0,H0=0,AS=1,DH=20,DOV=24,DF=7,SX=0,SY=0;
-function resize(){var w=innerWidth,h=innerHeight;if(w==W0&&h==H0)return;W0=w;H0=h;AS=w/h;R.setPixelRatio(Math.min(devicePixelRatio||1,M?1.6:2));R.setSize(w,h,false);cam.aspect=AS;cam.updateProjectionMatrix();
+function resize(){var w=innerWidth,h=innerHeight;if(w==W0&&h==H0)return;W0=w;H0=h;AS=w/h;R.setPixelRatio(Math.min(devicePixelRatio||1,M?1.5:2));R.setSize(w,h,false);cam.aspect=AS;cam.updateProjectionMatrix();
 var rw=RW/(AS<1?1.15:1.1);DH=rw/(2*TF*AS);DOV=6.3/(TF*Math.min(1,AS*1.05));DF=(AS<1?3.9:6.0)/(2*TF*AS);if(AS<1){SX=0;SY=.17}else{SX=.2;SY=0}}
 resize();
-var st={a:0,f:-1,ex:0,fs:-1,px:0,py:0,tp:0,on:true,vis:true},tmpP=new V(),tmpQ=new T.Quaternion(),bq=new T.Quaternion(),bp=new V(),tgt=new V(),pos=new V(),dir=new V(0,.79,.61).normalize(),cr=new V(),cu=new V(),lp=new V(),cq=new T.Quaternion(),cqx=new T.Quaternion();
+var lastT=0,sa=0,st={a:0,f:-1,ex:0,fs:-1,px:0,py:0,tp:0,on:true,vis:true},tmpP=new V(),tmpQ=new T.Quaternion(),bq=new T.Quaternion(),bp=new V(),tgt=new V(),pos=new V(),dir=new V(0,.79,.61).normalize(),cr=new V(),cu=new V(),lp=new V(),cq=new T.Quaternion(),cqx=new T.Quaternion();
 var ray=new T.Raycaster(),mv=new T.Vector2();
 function worldCard(k,out){cardLocal(k,out);return board.localToWorld(out)}
 function pose(f,out){/*out.t,out.d,out.sx,out.sy*/var kk=Math.max(0,Math.min(N-1,f)),i0=Math.floor(kk),i1=Math.min(N-1,i0+1),e=sm(.3,.7,kk-i0),a=new V(),b=new V();worldCard(i0,a);worldCard(i1,b);out.t.copy(a).lerp(b,e);
 var ov=sm(-1,0,f);out.t.lerp(OVT,1-ov);out.d=mix(DOV,DF,ov);out.sx=SX*ov;out.sy=SY*ov}
 var OVT=new V(0,0,.4),HP=new V(0,.7,0),P2=new V(),P1={t:new V(),d:0,sx:0,sy:0};
-function frame(t){if(!st.on)return;if(st.vis===false)return;resize();var a=st.a,ex=st.ex,tt=o.reduce?0:t*.55;
+function frame(t){if(!st.on)return;if(st.vis===false)return;resize();var dt0=Math.min(.1,Math.max(0,t-lastT));lastT=t;sa=o.reduce?st.a:sa+(st.a-sa)*(1-Math.exp(-dt0*10));if(Math.abs(st.a-sa)<.0004)sa=st.a;var a=sa,ex=st.ex,tt=o.reduce?0:t*.55;
 st.fs+=(st.f-st.fs)*(o.reduce?1:.09);if(Math.abs(st.f-st.fs)<.0005)st.fs=st.f;var f=st.fs;
 var c=sm(.12,.5,a),rise=sm(.55,.92,a),fl=sm(.28,.55,a)*(1-sm(.62,.8,a));
 board.visible=rise>.001;board.position.y=-.6-(1-rise)*2.8;board.scale.setScalar(.8+.2*rise);board.updateMatrixWorld(true);topM.opacity=sm(.7,.95,a);shp.material.opacity=.24*sm(.8,1,a);
@@ -478,7 +478,7 @@ var wp=a>=1&&w<1?1:0,pnO=1-sm(.0,.4,ex);pn.style.opacity=pshown==-9?0:pnO;pn.sty
 var kk=f<-.5?-1:clamp(Math.round(f),0,N-1);setPanel(a<.9?-9:kk);
 var c=chapter(y);if(c!=ch){ch=c;CNE.textContent=p3(c)+" — 004"}
 STR.style.setProperty("--so",(sm(.5,1,a)*(1-sm(0,.7,ex))).toFixed(3));
-if(GLX&&!pjOpen&&!document.hidden){var vis=ex<1&&y<A.wt+A.wl+VH;GLX.st.vis=vis;if(vis&&!(Mo&&(fr++&1)&&a<.2)){GLX.st.a=a;GLX.st.f=f;GLX.st.ex=ex;GLX.frame(t/1000)}
+if(GLX&&!pjOpen&&!document.hidden){var vis=ex<1&&y<A.wt+A.wl+VH;GLX.st.vis=vis;if(vis){GLX.st.a=a;GLX.st.f=f;GLX.st.ex=ex;GLX.frame(t/1000)}
 var dt=t-lt;lt=t;if(dt>0&&dt<200){ema+=(dt-ema)*.05;if(ema>26&&vis){slow++;if(slow>100&&GLX.R.getPixelRatio()>1.05){GLX.R.setPixelRatio(Math.max(1,GLX.R.getPixelRatio()-.25));GLX.resize&&(GLX.R.setSize(innerWidth,innerHeight,false));slow=0;ema=16}}else slow=0}}}
 function boot(){measure();document.documentElement.classList.add("ready");if(!raf)raf=requestAnimationFrame(update)}
 addEventListener("resize",function(){measure();if(GLX)GLX.resize()});
