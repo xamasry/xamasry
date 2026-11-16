@@ -14,7 +14,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .mo{font-family:var(--m);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
-#track{height:900vh;position:relative}
+#track{height:420vh;position:relative}
 .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--bg)}
 h1{font-size:inherit;font-weight:400}
 .hl{position:absolute;left:0;right:0;font-weight:400;font-size:clamp(40px,6.7vw,130px);line-height:1;letter-spacing:-.055em;white-space:nowrap;text-align:center;will-change:transform}
@@ -369,6 +369,7 @@ img,video{max-width:100%}
 .sec>.in{transition:filter 1.1s cubic-bezier(.2,.7,.2,1),opacity 1s ease,transform 1.2s cubic-bezier(.2,.7,.2,1)}
 .sec>.in.cin{filter:grayscale(1) blur(14px) contrast(1.1);opacity:0;transform:translateY(28px) scale(.985)}
 @media (prefers-reduced-motion:reduce){.sec>.in,.sec>.in.cin{transition:none;filter:none;opacity:1;transform:none}}
+@media (max-width:860px){#track{height:300vh}}
 </style>
 <header class="top" id="top">
 <a class="logo" href="#hero" aria-label="Ahmed El Masry, back to top"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M11 0l11 18h-6.2L11 9.6 6.2 18H0z"/></svg><b>AHMED EL MASRY</b></a>
