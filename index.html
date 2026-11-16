@@ -300,6 +300,7 @@ img,video{max-width:100%}
 .bkc .mo{color:var(--co)}.bkc h3{margin:0;font-weight:700;font-size:clamp(24px,3vw,40px);line-height:1.2}
 .bkc p{margin:0;font-size:15px;line-height:1.85;color:rgba(244,241,234,.82)}.bkc .sb{font-size:16px;color:var(--ink);font-weight:600}
 .bkb{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:8px}
+.wcol.o .cg{padding-top:clamp(18px,3vh,34px)}
 </style>
 <header class="top" id="top">
 <a class="logo" href="#hero" aria-label="Ahmed El Masry, back to top"><svg viewBox="0 0 22 18" aria-hidden="true"><path d="M11 0l11 18h-6.2L11 9.6 6.2 18H0z"/></svg><b>AHMED EL MASRY</b></a>
@@ -347,8 +348,8 @@ img,video{max-width:100%}
 <div class="bkb"><a class="pill" href="https://wa.me/message/HCKNLM6TDNBXK1" target="_blank" rel="noopener">ORDER BOTH ON WHATSAPP →</a></div>
 </div></div></div></section>
 <section id="certs" class="sec" aria-label="Certificates"><div class="in">
-<div class="hd"><span class="mo">CERTIFICATES</span><h2>Always learning.</h2></div>
-<div class="cg"><div class="cats" id="cats"></div><div class="cl2" id="cl2"></div></div></div></section>
+<button type="button" class="hd wtg" id="ctg" aria-expanded="false" aria-controls="cidx"><span class="mo">CERTIFICATES</span><h2>Always learning.</h2><span class="wpl mo" id="cpl">SHOW ALL +</span></button>
+<div class="wcol" id="cidx"><div class="wci"><div class="cg"><div class="cats" id="cats"></div><div class="cl2" id="cl2"></div></div></div></div></div></section>
 <section id="contact" class="sec" aria-label="Contact"><div class="in">
 <div class="hd"><span class="mo">CONTACT</span><h2>Let's talk.</h2></div>
 <div class="kg"><div class="wac"><p>Projects, trainings, workshops, or the books. Everything goes through WhatsApp.</p><a class="pill wab" id="wa" href="https://wa.me/message/HCKNLM6TDNBXK1" target="_blank" rel="noopener">MESSAGE ME ON WHATSAPP →</a></div>
@@ -540,7 +541,7 @@ function Y(){return window.pageYOffset||document.documentElement.scrollTop||0}
 function measure(){VH=innerHeight;A.trk=Math.max(1,track.offsetHeight-stage.clientHeight)}
 function to(y){window.scrollTo({top:Math.max(0,y),behavior:reduce?"auto":"smooth"})}
 function secY(id){var e=document.getElementById(id);return e?e.getBoundingClientRect().top+Y():0}
-function goSec(id){if(id=="hero")return to(0);if(id=="work"&&window.setWork)window.setWork(true);to(secY(id))}
+function goSec(id){if(id=="hero")return to(0);if(id=="work"&&window.setWork)window.setWork(true);if(id=="certs"&&window.setCerts)window.setCerts(true);to(secY(id))}
 var vurl=[];function vsrc(i){if(!vurl[i]&&MD.v[i]){try{var bin=atob(MD.v[i]),u=new Uint8Array(bin.length);for(var k=0;k<bin.length;k++)u[k]=bin.charCodeAt(k);vurl[i]=URL.createObjectURL(new Blob([u],{type:"video/mp4"}))}catch(e){}}return vurl[i]}
 var GLX=null,pjOpen=false,vis=true;
 try{if(typeof THREE!=="undefined")GLX=STAGE({list:LIST,M:Mo,reduce:reduce,vsrc:vsrc,vis:function(){return vis&&!pjOpen&&!document.hidden}})}catch(e){GLX=null;window.__glerr=String(e&&e.stack||e)}
@@ -639,6 +640,9 @@ try{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isI
 
 (function(){var t=$("#wtg"),c=$("#widx"),l=$("#wpl");if(!t)return;function set(o){c.classList.toggle("o",o);t.setAttribute("aria-expanded",o);l.textContent=o?"HIDE −":"SHOW ALL +"}
 window.setWork=set;t.addEventListener("click",function(){set(!c.classList.contains("o"))});set(false)})();
+
+(function(){var t=$("#ctg"),c=$("#cidx"),l=$("#cpl");if(!t)return;function set(o){c.classList.toggle("o",o);t.setAttribute("aria-expanded",o);l.textContent=o?"HIDE −":"SHOW ALL +"}
+window.setCerts=set;t.addEventListener("click",function(){set(!c.classList.contains("o"))});set(false)})();
 
 (function(){
 var M=matchMedia("(max-width:800px),(pointer:coarse)").matches;
